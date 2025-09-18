@@ -40,13 +40,13 @@
 						<a href="#footer" class="cta-button">Kontakt</a>
 					</li>
 					<li class="nav-item social-icons">
-                <a href="#" class="nav-link social-icon" aria-label="Facebook">
-                    <span class="icon brands fa-facebook-f"></span>
-                </a>
-                <a href="#" class="nav-link social-icon" aria-label="Instagram">
-                    <span class="icon brands fa-instagram"></span>
-                </a>
-            </li>
+    <a href="https://www.facebook.com/renoviranjeiadaptacijabeograd" target="_blank" rel="noopener noreferrer" class="nav-link social-icon" aria-label="Facebook">
+        <span class="icon brands fa-facebook-f"></span>
+    </a>
+    <a href="https://www.instagram.com/renoviranje.stana" target="_blank" rel="noopener noreferrer" class="nav-link social-icon" aria-label="Instagram">
+        <span class="icon brands fa-instagram"></span>
+    </a>
+</li>
 				</ul>
 			</div>
 		</nav>
@@ -183,35 +183,35 @@
             <div class="form-group">
                 <div class="radio-option">
                     <input type="checkbox" id="q-vk-radovi" name="q-work-types" value="80">
-                    <label for="q-vk-radovi">VK radovi (80€/m²)</label>
+                    <label for="q-vk-radovi">VK radovi</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-elektro-radovi" name="q-work-types" value="75">
-                    <label for="q-elektro-radovi">Radovi na elektroinstalacijama (75€/m²)</label>
+                    <label for="q-elektro-radovi">Radovi na elektroinstalacijama</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-gradevinski-radovi" name="q-work-types" value="45">
-                    <label for="q-gradevinski-radovi">Građevinski radovi (45€/m²)</label>
+                    <label for="q-gradevinski-radovi">Građevinski radovi</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-keramicki-radovi" name="q-work-types" value="95">
-                    <label for="q-keramicki-radovi">Keramičarski radovi (95€/m²)</label>
+                    <label for="q-keramicki-radovi">Keramičarski radovi</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-parketarski-radovi" name="q-work-types" value="85">
-                    <label for="q-parketarski-radovi">Parketarski radovi (85€/m²)</label>
+                    <label for="q-parketarski-radovi">Parketarski radovi</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-spoljasnja-stolarija" name="q-work-types" value="90">
-                    <label for="q-spoljasnja-stolarija">Spoljašnja stolarija (90€/m²)</label>
+                    <label for="q-spoljasnja-stolarija">Spoljašnja stolarija</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-unutrasnja-stolarija" name="q-work-types" value="35">
-                    <label for="q-unutrasnja-stolarija">Unutrašnja stolarija (35€/m²)</label>
+                    <label for="q-unutrasnja-stolarija">Unutrašnja stolarija</label>
                 </div>
                 <div class="radio-option">
                     <input type="checkbox" id="q-moleraj" name="q-work-types" value="35">
-                    <label for="q-moleraj">Moleraj (35€/m²)</label>
+                    <label for="q-moleraj">Moleraj</label>
                 </div>
                 <div class="error" id="q-work-types-error" style="display: none;">Molimo odaberite barem jednu vrstu radova</div>
             </div>
@@ -225,8 +225,8 @@
         </div>
     </form>
     
-    <!-- Results -->
-    <!-- Results -->
+    
+<!-- Results -->
 <div class="questionnaire-result" id="q-result-container" style="display: none;">
     <h2>Vaša Procenjena Cena</h2>
     <div class="questionnaire-price" id="q-price">0€</div>
@@ -239,8 +239,7 @@
                     <tr>
                         <th>Vrsta Radova</th>
                         <th>Cena po m²</th>
-                        <th>Površina</th>
-                        <th>Ukupno</th>
+                        <th id="q-total-column-header">Ukupno</th>
                     </tr>
                 </thead>
                 <tbody id="q-details-table-body">
@@ -248,19 +247,19 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3">Osnovna cena radova</td>
+                        <td colspan="2">Osnovna cena radova</td>
                         <td id="q-base-price">0€</td>
                     </tr>
                     <tr id="q-floors-adjustment-row" style="display: none;">
-                        <td colspan="3">Dodatak za spratove</td>
+                        <td colspan="2">Dodatak za spratove</td>
                         <td id="q-floors-adjustment">0€</td>
                     </tr>
                     <tr id="q-elevator-adjustment-row" style="display: none;">
-                        <td colspan="3">Dodatak za stepenice (bez lifta)</td>
+                        <td colspan="2">Dodatak za stepenice (bez lifta)</td>
                         <td id="q-elevator-adjustment">0€</td>
                     </tr>
                     <tr class="total-row">
-                        <td colspan="3"><strong>UKUPNA PROCENJENA CENA</strong></td>
+                        <td colspan="2"><strong>UKUPNA PROCENJENA CENA</strong></td>
                         <td><strong id="q-total-price">0€</strong></td>
                     </tr>
                 </tfoot>
@@ -274,7 +273,7 @@
         <p>Nakon izlaska na teren i sagledavanja svih detalja projekta, precizna ponuda će biti sastavljena i poslata.</p>
     </div>
     
-    <button id="q-restart-btn">Novi Proračun</button>
+    <button id="q-restart-btn">Novi Izračun</button>
 </div>
 </div>
 				
@@ -344,10 +343,16 @@
 
 					<p>Da se još bolje upoznate sa nama i našim radovima, zapratite nas na platformama Facebook i Instagram.</p>
 
+					<li>MDEXO D.O.O.</li>
+					<li><a href="tel:+381641161160" class="phone-link" aria-label="Call us">Pozovite nas: 064/116-1160</a></li>
+					<li>Adresa: Jaše Prodanovića 16, 11000 Beograd</li>
+					<li>Radno vreme: radnim danima 09h - 17h</li>
+					<li>Email: office@mdexo.com</li><br />
+
 					<ul class="icons">
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-					</ul>
+    <li><a href="https://www.facebook.com/renoviranjeiadaptacijabeograd" target="_blank" rel="noopener noreferrer" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+    <li><a href="https://www.instagram.com/renoviranje.stana" target="_blank" rel="noopener noreferrer" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+</ul>
 
 					<ul class="copyright">
 						<li>&copy; MDexo 2025</li>
