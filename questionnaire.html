@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Price Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+        }
+        
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px 40px 0;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            height: 4px;
+            background: #e0e0e0;
+            width: 100%;
+            top: 35px;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .progress {
+            position: absolute;
+            height: 4px;
+            background: #4c84ff;
+            width: 0%;
+            top: 35px;
+            left: 0;
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+        
+        .step {
+            width: 30px;
+            height: 30px;
+            background-color: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #777;
+            z-index: 3;
+            position: relative;
+        }
+        
+        .step.active {
+            background-color: #4c84ff;
+            color: white;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: -25px;
+            font-size: 12px;
+            color: #777;
+            white-space: nowrap;
+        }
+        
+        .form-container {
+            padding: 20px 40px;
+        }
+        
+        .step-form {
+            display: none;
+        }
+        
+        .step-form.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #4c84ff;
+            outline: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .radio-option input {
+            width: auto;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #prev-btn {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+        
+        #prev-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        #next-btn, #submit-btn {
+            background-color: #4c84ff;
+            color: white;
+        }
+        
+        #next-btn:hover, #submit-btn:hover {
+            background-color: #3a70e0;
+        }
+        
+        .result-container {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .result-container h2 {
+            color: #4c84ff;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 42px;
+            font-weight: 700;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .details h3 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .details ul {
+            list-style-type: none;
+        }
+        
+        .details li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .details li:last-child {
+            border-bottom: none;
+        }
+        
+        .restart-btn {
+            background-color: #4c84ff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            background-color: #3a70e0;
+        }
+        
+        .error {
+            color: #ff4757;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .progress-container, .form-container {
+                padding: 20px;
+            }
+            
+            .step-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="progress"></div>
+            <div class="step active">
+                <span>1</span>
+                <div class="step-label">Area</div>
+            </div>
+            <div class="step">
+                <span>2</span>
+                <div class="step-label">Floors</div>
+            </div>
+            <div class="step">
+                <span>3</span>
+                <div class="step-label">Elevator</div>
+            </div>
+            <div class="step">
+                <span>4</span>
+                <div class="step-label">Rooms</div>
+            </div>
+            <div class="step">
+                <span>5</span>
+                <div class="step-label">Extras</div>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <form id="form">
+                <!-- Step 1 -->
+                <div class="step-form active" id="step-1">
+                    <h2>What's the area of your home?</h2>
+                    <div class="form-group">
+                        <label for="area">Area (in square meters)</label>
+                        <input type="number" id="area" placeholder="Enter area in m²" min="20" max="1000" required>
+                        <div class="error" id="area-error">Please enter a valid area between 20 and 1000 m²</div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step-form" id="step-2">
+                    <h2>How many floors?</h2>
+                    <div class="form-group">
+                        <label for="floors">Number of floors</label>
+                        <select id="floors" required>
+                            <option value="" disabled selected>Select number of floors</option>
+                            <option value="1">1 floor</option>
+                            <option value="2">2 floors</option>
+                            <option value="3">3 floors</option>
+                            <option value="4">4+ floors</option>
+                        </select>
+                        <div class="error" id="floors-error">Please select the number of floors</div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step-form" id="step-3">
+                    <h2>Is there an elevator?</h2>
+                    <div class="form-group">
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="elevator-yes" name="elevator" value="yes" required>
+                                <label for="elevator-yes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="elevator-no" name="elevator" value="no">
+                                <label for="elevator-no">No</label>
+                            </div>
+                        </div>
+                        <div class="error" id="elevator-error">Please select an option</div>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="step-form" id="step-4">
+                    <h2>How many rooms?</h2>
+                    <div class="form-group">
+                        <label for="rooms">Number of rooms</label>
+                        <input type="number" id="rooms" placeholder="Enter number of rooms" min="1" max="20" required>
+                        <div class="error" id="rooms-error">Please enter a valid number of rooms (1-20)</div>
+                    </div>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="step-form" id="step-5">
+                    <h2>Additional services</h2>
+                    <div class="form-group">
+                        <div class="radio-option">
+                            <input type="checkbox" id="deep-cleaning" name="extras" value="deep-cleaning">
+                            <label for="deep-cleaning">Deep cleaning (+$50)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="checkbox" id="window-cleaning" name="extras" value="window-cleaning">
+                            <label for="window-cleaning">Window cleaning (+$30)</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="checkbox" id="furniture-assembly" name="extras" value="furniture-assembly">
+                            <label for="furniture-assembly">Furniture assembly (+$75)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Buttons -->
+                <div class="buttons">
+                    <button type="button" id="prev-btn">Previous</button>
+                    <button type="button" id="next-btn">Next</button>
+                    <button type="button" id="submit-btn">Calculate Price</button>
+                </div>
+            </form>
+            
+            <!-- Results -->
+            <div class="result-container" id="result-container" style="display: none;">
+                <h2>Your Estimated Price</h2>
+                <div class="price" id="price">$0</div>
+                <div class="details">
+                    <h3>Service Details</h3>
+                    <ul id="details-list">
+                        <!-- Details will be added here by JavaScript -->
+                    </ul>
+                </div>
+                <button class="restart-btn" id="restart-btn">Start New Calculation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const form = document.getElementById('form');
+            const stepForms = document.querySelectorAll('.step-form');
+            const steps = document.querySelectorAll('.step');
+            const progress = document.querySelector('.progress');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const restartBtn = document.getElementById('restart-btn');
+            const resultContainer = document.getElementById('result-container');
+            const priceElement = document.getElementById('price');
+            const detailsList = document.getElementById('details-list');
+            
+            // Current step
+            let currentStep = 0;
+            
+            // Update buttons visibility
+            function updateButtons() {
+                if (currentStep === 0) {
+                    prevBtn.style.display = 'none';
+                } else {
+                    prevBtn.style.display = 'block';
+                }
+                
+                if (currentStep === stepForms.length - 1) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                } else {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                }
+            }
+            
+            // Update progress bar
+            function updateProgress() {
+                progress.style.width = (currentStep / (stepForms.length - 1)) * 100 + '%';
+                
+                steps.forEach((step, index) => {
+                    if (index <= currentStep) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Show current step
+            function showStep(stepIndex) {
+                stepForms.forEach((step, index) => {
+                    if (index === stepIndex) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+                
+                currentStep = stepIndex;
+                updateButtons();
+                updateProgress();
+            }
+            
+            // Validate current step
+            function validateStep(stepIndex) {
+                let isValid = true;
+                const errorElement = document.getElementById(`${getFieldId(stepIndex)}-error`);
+                
+                switch(stepIndex) {
+                    case 0:
+                        const area = document.getElementById('area').value;
+                        if (!area || area < 20 || area > 1000) {
+                            isValid = false;
+                            errorElement.style.display = 'block';
+                        } else {
+                            errorElement.style.display = 'none';
+                        }
+                        break;
+                    case 1:
+                        const floors = document.getElementById('floors').value;
+                        if (!floors) {
+                            isValid = false;
+                            errorElement.style.display = 'block';
+                        } else {
+                            errorElement.style.display = 'none';
+                        }
+                        break;
+                    case 2:
+                        const elevator = document.querySelector('input[name="elevator"]:checked');
+                        if (!elevator) {
+                            isValid = false;
+                            errorElement.style.display = 'block';
+                        } else {
+                            errorElement.style.display = 'none';
+                        }
+                        break;
+                    case 3:
+                        const rooms = document.getElementById('rooms').value;
+                        if (!rooms || rooms < 1 || rooms > 20) {
+                            isValid = false;
+                            errorElement.style.display = 'block';
+                        } else {
+                            errorElement.style.display = 'none';
+                        }
+                        break;
+                }
+                
+                return isValid;
+            }
+            
+            // Get field ID for error message
+            function getFieldId(stepIndex) {
+                switch(stepIndex) {
+                    case 0: return 'area';
+                    case 1: return 'floors';
+                    case 2: return 'elevator';
+                    case 3: return 'rooms';
+                    default: return '';
+                }
+            }
+            
+            // Calculate price
+            function calculatePrice() {
+                // Get values from form
+                const area = parseInt(document.getElementById('area').value);
+                const floors = parseInt(document.getElementById('floors').value);
+                const elevator = document.querySelector('input[name="elevator"]:checked').value;
+                const rooms = parseInt(document.getElementById('rooms').value);
+                const deepCleaning = document.getElementById('deep-cleaning').checked;
+                const windowCleaning = document.getElementById('window-cleaning').checked;
+                const furnitureAssembly = document.getElementById('furniture-assembly').checked;
+                
+                // Base price calculation
+                let basePrice = area * 1.5;
+                
+                // Adjust for floors
+                if (floors > 1) {
+                    basePrice *= (1 + (floors - 1) * 0.2);
+                }
+                
+                // Adjust for elevator
+                if (elevator === 'no' && floors > 1) {
+                    basePrice *= 1.15; // 15% extra if no elevator and multiple floors
+                }
+                
+                // Adjust for number of rooms
+                basePrice *= (1 + (rooms * 0.05));
+                
+                // Add extras
+                let extras = [];
+                let extrasPrice = 0;
+                
+                if (deepCleaning) {
+                    extrasPrice += 50;
+                    extras.push('Deep cleaning: +$50');
+                }
+                
+                if (windowCleaning) {
+                    extrasPrice += 30;
+                    extras.push('Window cleaning: +$30');
+                }
+                
+                if (furnitureAssembly) {
+                    extrasPrice += 75;
+                    extras.push('Furniture assembly: +$75');
+                }
+                
+                const totalPrice = basePrice + extrasPrice;
+                
+                // Generate details list
+                detailsList.innerHTML = `
+                    <li>Base area (${area}m²): $${(area * 1.5).toFixed(2)}</li>
+                    <li>Floors (${floors}): ${floors > 1 ? '+' + ((floors - 1) * 0.2 * 100).toFixed(0) + '%' : 'No extra charge'}</li>
+                    <li>Elevator: ${elevator === 'yes' ? 'No extra charge' : '+15% for stairs'}</li>
+                    <li>Rooms (${rooms}): +${(rooms * 0.05 * 100).toFixed(0)}%</li>
+                    ${extras.length > 0 ? '<li>Extra services:<ul>' + extras.map(extra => `<li>${extra}</li>`).join('') + '</ul></li>' : '<li>No extra services selected</li>'}
+                `;
+                
+                return totalPrice;
+            }
+            
+            // Event listeners
+            nextBtn.addEventListener('click', function() {
+                if (validateStep(currentStep)) {
+                    showStep(currentStep + 1);
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                showStep(currentStep - 1);
+            });
+            
+            submitBtn.addEventListener('click', function() {
+                if (validateStep(currentStep)) {
+                    // Calculate and display price
+                    const price = calculatePrice();
+                    priceElement.textContent = `$${price.toFixed(2)}`;
+                    
+                    // Show result container, hide form
+                    form.style.display = 'none';
+                    resultContainer.style.display = 'block';
+                }
+            });
+            
+            restartBtn.addEventListener('click', function() {
+                // Reset form and show first step
+                form.reset();
+                showStep(0);
+                
+                // Show form, hide result container
+                form.style.display = 'block';
+                resultContainer.style.display = 'none';
+            });
+            
+            // Initialize
+            updateButtons();
+        });
+    </script>
+</body>
+</html>
