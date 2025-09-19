@@ -82,21 +82,22 @@ input, select, textarea {
 		box-sizing: inherit;
 	}
 
-	body {
-		background-image: url("images/overlay.png"), -moz-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.65)), url("../../images/bg.jpg");
-		background-image: url("images/overlay.png"), -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.65)), url("../../images/bg.jpg");
-		background-image: url("images/overlay.png"), -ms-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.65)), url("../../images/bg.jpg");
-		background-image: url("images/overlay.png"), linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.65)), url("../../images/bg.jpg");
-		background-position: top left, bottom left, auto;
-		background-size: auto, 100% 100%, cover;
-		background-attachment: fixed;
-		background-repeat: repeat, no-repeat, auto;
-		position: relative;
-		background-color: #150C07;
-		line-height: 1.75em;
-		overflow-x: hidden;
-		overflow-y: auto;
-	}
+body {
+    background-image: url("images/overlay.png"), -moz-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1)), url("../../images/banner.jpg");
+    background-image: url("images/overlay.png"), -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1)), url("../../images/banner.jpg");
+    background-image: url("images/overlay.png"), -ms-linear-gradient(top, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1)), url("../../images/banner.jpg");
+    background-image: url("images/overlay.png"), linear-gradient(to bottom, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.1)), url("../../images/banner.jpg");
+    background-position: top left, bottom left, center center;
+    background-size: auto, 100% 100%, cover;
+    background-attachment: fixed;
+    background-repeat: repeat, no-repeat, no-repeat;
+    position: relative;
+    background-color: #150C07;
+    line-height: 1.75em;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -831,3 +832,15 @@ input, select, textarea {
 				}
 
 		}
+
+.intro-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.5);
+    transition: border-bottom-color 0.3s ease;
+}
+
+.intro-link:hover {
+    border-bottom-color: rgba(255, 255, 255, 1);
+    text-decoration: none;
+}
