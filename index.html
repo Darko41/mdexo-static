@@ -225,56 +225,57 @@
         </div>
     </form>
     
-    
-<!-- Results -->
-<div class="questionnaire-result" id="q-result-container" style="display: none;">
-    <h2>Vaša Procenjena Cena</h2>
-    <div class="questionnaire-price" id="q-price">0€</div>
-    
-    <div class="questionnaire-details">
-        <h3>Detalji Usluge</h3>
-        <div class="table-wrapper">
-            <table class="default">
-                <thead>
-                    <tr>
-                        <th>Vrsta Radova</th>
-                        <th>Cena po m²</th>
-                        <th id="q-total-column-header">Ukupno</th>
-                    </tr>
-                </thead>
-                <tbody id="q-details-table-body">
-                    <!-- Table rows will be added here by JavaScript -->
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2">Osnovna cena radova</td>
-                        <td id="q-base-price">0€</td>
-                    </tr>
-                    <tr id="q-floors-adjustment-row" style="display: none;">
-                        <td colspan="2">Dodatak za spratove</td>
-                        <td id="q-floors-adjustment">0€</td>
-                    </tr>
-                    <tr id="q-elevator-adjustment-row" style="display: none;">
-                        <td colspan="2">Dodatak za stepenice (bez lifta)</td>
-                        <td id="q-elevator-adjustment">0€</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td colspan="2"><strong>UKUPNA PROCENJENA CENA</strong></td>
-                        <td><strong id="q-total-price">0€</strong></td>
-                    </tr>
-                </tfoot>
-            </table>
+    <!-- Results Container (initially hidden) -->
+    <div id="q-result-container" class="questionnaire-results" style="display: none;">
+        <div class="result-header">
+            <h2>Rezultat Proračuna</h2>
+            <p>Procenjena cena za vaš projekt renoviranja je:</p>
+            <div class="total-price" id="q-price">0€</div>
         </div>
+        
+        <div class="questionnaire-details">
+            <h3>Detalji Usluge</h3>
+            <div class="table-wrapper">
+                <table class="default">
+                    <thead>
+                        <tr>
+                            <th>Vrsta Radova</th>
+                            <th id="q-total-column-header">Ukupno</th>
+                        </tr>
+                    </thead>
+                    <tbody id="q-details-table-body">
+                        <!-- Table rows will be added here by JavaScript -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Osnovna cena radova</td>
+                            <td id="q-base-price">0€</td>
+                        </tr>
+                        <tr id="q-floors-adjustment-row" style="display: none;">
+                            <td>Dodatak za spratove</td>
+                            <td id="q-floors-adjustment">0€</td>
+                        </tr>
+                        <tr id="q-elevator-adjustment-row" style="display: none;">
+                            <td>Dodatak za stepenice (bez lifta)</td>
+                            <td id="q-elevator-adjustment">0€</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td><strong>UKUPNA PROCENJENA CENA</strong></td>
+                            <td><strong id="q-total-price">0€</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="questionnaire-disclaimer">
+            <p>Navedeni iznos predstavlja okvirnu cenu renoviranja po sistemu ključ u ruke.</p>
+            <p>Nakon izlaska na teren i sagledavanja svih detalja projekta, precizna ponuda će biti sastavljena i poslata.</p>
+        </div>
+        
+        <button id="q-restart-btn" class="questionnaire-btn">Novi Proračun</button>
     </div>
-    
-    <!-- Disclaimer -->
-    <div class="questionnaire-disclaimer">
-        <p>Navedeni iznos predstavlja okvirnu cenu renoviranja po sistemu ključ u ruke.</p>
-        <p>Nakon izlaska na teren i sagledavanja svih detalja projekta, precizna ponuda će biti sastavljena i poslata.</p>
-    </div>
-    
-    <button id="q-restart-btn">Novi Izračun</button>
-</div>
 </div>
 				
 				<div class="box container">
@@ -325,7 +326,7 @@
 
 				<footer class="major container medium">
 					<h3>Upoznajte se sa našim radovima</h3>
-					<p>Sa ponosom vam predstavljamo samo neke od projekata koji su rezultat rada tima naših stručnjaka. Odaberete najbolje za renoviranje i adaptaciju vašeg poslovnog ili stambenog prostora.</p>
+					<p>Sa ponosom vam predstavljamo samo neke od projekta koji su rezultat rada tima naših stručnjaka. Odaberete najbolje za renoviranje i adaptaciju vašeg poslovnog ili stambenog prostora.</p>
 					<ul class="actions special">
 						<li><a href="projects.html" class="button">Pogledajte sve naše projekte</a></li>
 					</ul>
@@ -343,11 +344,13 @@
 
 					<p>Da se još bolje upoznate sa nama i našim radovima, zapratite nas na platformama Facebook i Instagram.</p>
 
-					<li>MDEXO D.O.O.</li>
-					<li><a href="tel:+381641161160" class="phone-link" aria-label="Call us">Pozovite nas: 064/116-1160</a></li>
-					<li>Adresa: Jaše Prodanovića 16, 11000 Beograd</li>
-					<li>Radno vreme: radnim danima 09h - 17h</li>
-					<li>Email: <a href="mailto:office@mdexo.com?subject=Upit%20o%20uslugama">office@mdexo.com</a></li>
+					<ul>
+						<li>MDEXO D.O.O.</li>
+						<li><a href="tel:+381641161160" class="phone-link" aria-label="Call us">Pozovite nas: 064/116-1160</a></li>
+						<li>Adresa: Jaše Prodanovića 16, 11000 Beograd</li>
+						<li>Radno vreme: radnim danima 09h - 17h</li>
+						<li>Email: <a href="mailto:office@mdexo.com?subject=Upit%20o%20uslugama">office@mdexo.com</a></li>
+					</ul>
 
 					<ul class="icons">
     				<li><a href="https://www.facebook.com/renoviranjeiadaptacijabeograd" target="_blank" rel="noopener noreferrer" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>

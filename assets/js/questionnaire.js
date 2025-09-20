@@ -129,84 +129,84 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Calculate price
-function calculateQPrice() {
-    // Get values from form
-    const area = parseInt(document.getElementById('q-area').value);
-    const floors = parseInt(document.getElementById('q-floors').value);
-    const elevator = document.querySelector('input[name="q-elevator"]:checked').value;
-    const workTypes = document.querySelectorAll('input[name="q-work-types"]:checked');
-    
-    // Update column header with area
-    document.getElementById('q-total-column-header').textContent = `Ukupno za ${area}m²`;
-    
-    // Work type prices and labels
-    const workTypePrices = {
-        'q-vk-radovi': { price: 80, label: 'VK radovi' },
-        'q-elektro-radovi': { price: 75, label: 'Radovi na elektroinstalacijama' },
-        'q-gradevinski-radovi': { price: 45, label: 'Građevinski radovi' },
-        'q-keramicki-radovi': { price: 95, label: 'Keramičarski radovi' },
-        'q-parketarski-radovi': { price: 85, label: 'Parketarski radovi' },
-        'q-spoljasnja-stolarija': { price: 90, label: 'Spoljašnja stolarija' },
-        'q-unutrasnja-stolarija': { price: 35, label: 'Unutrašnja stolarija' },
-        'q-moleraj': { price: 35, label: 'Moleraj' }
-    };
-    
-    // Calculate base price from selected work types
-    let workTypeSum = 0;
-    let basePrice = 0;
-    let tableHTML = '';
-    
-    workTypes.forEach(workType => {
-        const workTypeId = workType.id;
-        const workTypePrice = workTypePrices[workTypeId].price;
-        const workTypeLabel = workTypePrices[workTypeId].label;
-        const workTypeTotal = area * workTypePrice;
+    function calculateQPrice() {
+        // Get values from form
+        const area = parseInt(document.getElementById('q-area').value);
+        const floors = parseInt(document.getElementById('q-floors').value);
+        const elevator = document.querySelector('input[name="q-elevator"]:checked').value;
+        const workTypes = document.querySelectorAll('input[name="q-work-types"]:checked');
         
-        workTypeSum += workTypePrice;
-        basePrice += workTypeTotal;
+        // Update column header with area
+        document.getElementById('q-total-column-header').textContent = `Ukupno za ${area}m²`;
         
-        tableHTML += `
-            <tr>
-                <td>${workTypeLabel}</td>
-                <td>${workTypePrice}€/m²</td>
-                <td>${workTypeTotal.toFixed(2)}€</td>
-            </tr>
-        `;
-    });
-    
-    // Calculate adjustments
-    let floorsAdjustment = 0;
-    let elevatorAdjustment = 0;
-    
-    // Adjust for floors
-    if (floors > 1) {
-        floorsAdjustment = basePrice * ((floors - 1) * 0.15);
-        basePrice += floorsAdjustment;
-        qFloorsAdjustmentRow.style.display = '';
-        qFloorsAdjustmentElement.textContent = `+${floorsAdjustment.toFixed(2)}€`;
-    } else {
-        qFloorsAdjustmentRow.style.display = 'none';
+        // Work type prices and labels
+        const workTypePrices = {
+            'q-vk-radovi': { price: 80, label: 'VK radovi' },
+            'q-elektro-radovi': { price: 75, label: 'Radovi na elektroinstalacijama' },
+            'q-gradevinski-radovi': { price: 45, label: 'Građevinski radovi' },
+            'q-keramicki-radovi': { price: 95, label: 'Keramičarski radovi' },
+            'q-parketarski-radovi': { price: 85, label: 'Parketarski radovi' },
+            'q-spoljasnja-stolarija': { price: 90, label: 'Spoljašnja stolarija' },
+            'q-unutrasnja-stolarija': { price: 35, label: 'Unutrašnja stolarija' },
+            'q-moleraj': { price: 35, label: 'Moleraj' }
+        };
+        
+        // Calculate base price from selected work types
+        let workTypeSum = 0;
+        let basePrice = 0;
+        let tableHTML = '';
+        
+        workTypes.forEach(workType => {
+            const workTypeId = workType.id;
+            const workTypePrice = workTypePrices[workTypeId].price;
+            const workTypeLabel = workTypePrices[workTypeId].label;
+            const workTypeTotal = area * workTypePrice;
+            
+            workTypeSum += workTypePrice;
+            basePrice += workTypeTotal;
+            
+            // Removed the price per m² column from the table row
+            tableHTML += `
+                <tr>
+                    <td>${workTypeLabel}</td>
+                    <td>${workTypeTotal.toFixed(2)}€</td>
+                </tr>
+            `;
+        });
+        
+        // Calculate adjustments
+        let floorsAdjustment = 0;
+        let elevatorAdjustment = 0;
+        
+        // Adjust for floors
+        if (floors > 1) {
+            floorsAdjustment = basePrice * ((floors - 1) * 0.15);
+            basePrice += floorsAdjustment;
+            qFloorsAdjustmentRow.style.display = '';
+            qFloorsAdjustmentElement.textContent = `+${floorsAdjustment.toFixed(2)}€`;
+        } else {
+            qFloorsAdjustmentRow.style.display = 'none';
+        }
+        
+        // Adjust for elevator
+        if (elevator === 'no' && floors > 1) {
+            elevatorAdjustment = basePrice * 0.1;
+            basePrice += elevatorAdjustment;
+            qElevatorAdjustmentRow.style.display = '';
+            qElevatorAdjustmentElement.textContent = `+${elevatorAdjustment.toFixed(2)}€`;
+        } else {
+            qElevatorAdjustmentRow.style.display = 'none';
+        }
+        
+        const totalPrice = basePrice;
+        
+        // Update table
+        qDetailsTableBody.innerHTML = tableHTML;
+        qBasePriceElement.textContent = `${(totalPrice - floorsAdjustment - elevatorAdjustment).toFixed(2)}€`;
+        qTotalPriceElement.textContent = `${totalPrice.toFixed(2)}€`;
+        
+        return totalPrice;
     }
-    
-    // Adjust for elevator
-    if (elevator === 'no' && floors > 1) {
-        elevatorAdjustment = basePrice * 0.1;
-        basePrice += elevatorAdjustment;
-        qElevatorAdjustmentRow.style.display = '';
-        qElevatorAdjustmentElement.textContent = `+${elevatorAdjustment.toFixed(2)}€`;
-    } else {
-        qElevatorAdjustmentRow.style.display = 'none';
-    }
-    
-    const totalPrice = basePrice;
-    
-    // Update table
-    qDetailsTableBody.innerHTML = tableHTML;
-    qBasePriceElement.textContent = `${(totalPrice - floorsAdjustment - elevatorAdjustment).toFixed(2)}€`;
-    qTotalPriceElement.textContent = `${totalPrice.toFixed(2)}€`;
-    
-    return totalPrice;
-}
     
     // Event listeners
     qNextBtn.addEventListener('click', function() {
