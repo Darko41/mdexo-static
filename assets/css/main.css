@@ -3610,3 +3610,17 @@ input, select, textarea {
     }
 }
 
+.total-price {
+    font-weight: bold;
+    color: #e74c3c;
+    font-size: 1.2em;
+}
+
+.button-container {
+    text-align: center;
+    margin: 25px 0;
+}
+
+#q-restart-btn {
+    display: inline-block;
+}
