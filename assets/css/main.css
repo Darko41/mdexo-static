@@ -3302,6 +3302,9 @@ input, select, textarea {
 	}
 
 
+/* NEW TO TEMPLATE FROM HERE */
+
+
 
 /* Navigation Bar */
 #navbar {
@@ -3623,4 +3626,53 @@ input, select, textarea {
 
 #q-restart-btn {
     display: inline-block;
+}
+
+
+
+/* Fix for footer overlapping content */
+#main {
+    position: relative;
+    z-index: 2;
+}
+
+#footer {
+    margin-top: 0 !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Fix the header padding - make it specific to the actual header */
+div#header {
+    padding-top: 8em;
+}
+
+@media screen and (max-width: 1280px) {
+    div#header {
+        padding-top: 6em;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    div#header {
+        padding-top: 5em;
+    }
+}
+
+/* Ensure the last footer in main has proper spacing */
+#main > footer.major {
+    margin-bottom: 3em;
+    position: relative;
+    z-index: 3;
+    background: #ffffff !important; /* Force white background */
+}
+
+/* Fix footer header visibility */
+#footer header.major {
+    background: transparent !important; /* Remove white background */
+    color: #ffffff !important; /* Ensure white text */
+}
+
+#footer header.major h2 {
+    color: #ffffff !important; /* Ensure white text */
 }
